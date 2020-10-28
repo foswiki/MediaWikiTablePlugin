@@ -1,6 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" comment="autosave" date="1356278776" format="1.1" version="1"}%
-
 ---+!! <nop>%TOPIC%
+%FORMFIELD{"Description"}%
+
 %TOC%
 
 This plugin allows to create tables using the 
@@ -1193,7 +1194,7 @@ use XHTML markup like <code>&lt;big&gt;</code> instead of "font-size:120%", or
 Wiki markup like <code>_text_</code> instead of "font-style:italic".
 
 
-<style type="text/css">
+<style>
 .mwIndent,
 .mwBorder {
   margin:10px 50px;
@@ -1208,19 +1209,14 @@ Wiki markup like <code>_text_</code> instead of "font-style:italic".
 </style>
 
 
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
----++ Plugin Info
-<!-- provided for compatibility only
-   * Set SHORTDESCRIPTION = Format tables the <nop>MediaWiki way
--->
-|  Plugin Author: | Michael Daum |
-|  Copyright &copy;: | 2006-2014, Michael Daum http://michaeldaumconsulting.com |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Dependencies
+%$Dependencies%
+
+---++ Change History
+|  28 Oct 2020: | rewrite in OO style |
 |  30 Sep 2011: | using a rendering handler instead of a macro handler to parse mediawiki tables; \
                   deferring css and js initialization until a mediawiki table actually was found on a page |
 |  21 Sep 2010: | fixed adding css to the page (gawd) |
@@ -1232,9 +1228,14 @@ Wiki markup like <code>_text_</code> instead of "font-style:italic".
 |  13 Nov 2007: | minor performance tweaks |
 |  13 Oct 2006: | table markup may start have whitespaces at the beginning of a line |
 |  22 Sep 2006: | Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.8 |
-|  Plugin Home: | Foswiki:Extensions/%TOPIC% |
-|  Support: | Foswiki:Development/%TOPIC% |
 
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Michael Daum"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2006-2020, Michael Daum"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%TOPIC%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Development/%TOPIC%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

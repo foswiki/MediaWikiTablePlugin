@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2006-2014 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2006-2020 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,41 +18,28 @@ use strict;
 use warnings;
 
 use Foswiki::Func ();
-our $VERSION = '1.32';
-our $RELEASE = '1.32';
+our $VERSION = '2.00';
+our $RELEASE = '28 Oct 2020';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Format tables the <nop>MediaWiki way';
-our $doneInit = 0;
+our $core;
 
-###############################################################################
 sub initPlugin { 
-  $doneInit = 0;
+  $core->init() if defined $core;
   return 1; 
 }
 
-###############################################################################
+sub getCore {
+  unless (defined $core) {
+    require Foswiki::Plugins::MediaWikiTablePlugin::Core;
+    $core = Foswiki::Plugins::MediaWikiTablePlugin::Core->new();
+  }
+
+  return $core;
+}
+
 sub preRenderingHandler {
-  handleMWTable($_[0]) if $_[0] =~ /(^|[\n\r])\s*{\|/;
-}
-
-###############################################################################
-sub init {
-
-  return if $doneInit;
-  $doneInit = 1;
-
-  require Foswiki::Plugins::MediaWikiTablePlugin::Core;
-  Foswiki::Func::addToZone('head', 'MEDIAWIKITABLEPLUGIN:CSS', <<'HERE');
-<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/MediaWikiTablePlugin/styles.css" type="text/css" media="all" />
-HERE
-
-}
-
-
-###############################################################################
-sub handleMWTable {
-  init();
-  return Foswiki::Plugins::MediaWikiTablePlugin::Core::handleMWTable(@_);
+  getCore()->handleTables($_[0]) if $_[0] =~ /(^|[\n\r])\s*{\|/;
 }
 
 1;

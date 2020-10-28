@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2006-2014 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2006-2020 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,32 +18,60 @@ use strict;
 use warnings;
 
 use Foswiki::Func ();
-
 use constant TRACE => 0; # toggle me
 
 ###############################################################################
-sub writeDebug {
-  #&Foswiki::Func::writeDebug('- MediaWikiTablePlugin::Core - '.$_[0]) if TRACE;
-  print STDERR '- MediaWikiTablePlugin::Core - '.$_[0]."\n" if TRACE;
+sub new {
+  my $class = shift;
+
+  my $this = bless({
+    @_
+  }, $class);
+
+  $this->init();
+
+  return $this;
 }
 
 ###############################################################################
-sub handleMWTable {
+sub init {
+  my $this = shift;
+
+  $this->{_doneAddToHead} = 0;
+}
+
+###############################################################################
+sub addToHead {
+  my $this = shift;
+
+  return if $this->{_doneAddToHead};
+  $this->{_doneAddToHead} = 1;
+
+  Foswiki::Func::addToZone('head', 'MEDIAWIKITABLEPLUGIN:CSS', <<'HERE');
+<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/MediaWikiTablePlugin/styles.css" type="text/css" media="all" />
+HERE
+}
+
+###############################################################################
+sub handleTables {
+  my $this = shift;
 
   my $i = 0;
-  while ($_[0] =~ s/(^|[\n\r])(\s*{\|(?!.*?(^|[\n\r])\s*{\|).*?[\n\r]\s*\|})/$1.&_handleTable($2)/ges) {
+  while ($_[0] =~ s/(^|[\n\r])(\s*{\|(?!.*?(^|[\n\r])\s*{\|).*?[\n\r]\s*\|})/$1.$this->handleTable($2)/ges) {
     $i++;
-    #writeDebug("### nesting $i");
+    #__writeDebug("### nesting $i");
   };
 }
 
 ###############################################################################
-sub _handleTable {
-  my $text = shift;
+sub handleTable {
+  my ($this, $text) = @_;
 
-  #writeDebug("### called _handleTable");
+  $this->addToHead();
+
+  #_writeDebug("### called _handleTable");
   return '' unless $text;
-  #writeDebug("in:\n'$text'");
+  #_writeDebug("in:\n'$text'");
 
   my @result;
   my $foundRow = 0;
@@ -71,7 +99,7 @@ sub _handleTable {
     }
 
     # cells
-    if ($line =~ s/^\s*\|([^}\+\-].*)?$/&_handleTableCells($1, 0)/e) {
+    if ($line =~ s/^\s*\|([^}\+\-].*)?$/$this->handleTableCells($1, 0)/e) {
       unless ($foundRow) {
 	$line = "<tr class=\"$rowTag\">".$line;
 	$foundRow = 1;
@@ -92,7 +120,7 @@ sub _handleTable {
     }
 
     # head
-    if ($line =~ s/^\s*!([^}\+\-].*)$/&_handleTableCells($1, 1)/e) {
+    if ($line =~ s/^\s*!([^}\+\-].*)$/$this->handleTableCells($1, 1)/e) {
       unless ($foundRow) {
 	$line = "<tr>".$line;
 	$foundRow = 1;
@@ -106,7 +134,7 @@ sub _handleTable {
     }
 
     # captions
-    if ($line =~ s/^\s*\|\+(.*)?$/&_handleTableCells($1, 2)/e) {
+    if ($line =~ s/^\s*\|\+(.*)?$/$this->handleTableCells($1, 2)/e) {
       if ($foundCell) {
 	$line = "</td>".$line;
 	$foundCell = 0;
@@ -142,20 +170,20 @@ sub _handleTable {
       }
     }
 
-    #writeDebug("line=$line");
+    #_writeDebug("line=$line");
     push (@result, $line);
   }
   my $result = join("\n", @result);
 
-  #writeDebug("out:\n'$result'");
+  #_writeDebug("out:\n'$result'");
   return $result;
 }
 
 ##############################################################################
-sub _handleTableCells {
-  my ($text, $flag) = @_;
+sub handleTableCells {
+  my ($this, $text, $flag) = @_;
 
-  #writeDebug("text=$text, flag=$flag");
+  #_writeDebug("text=$text, flag=$flag");
   my $cellTag = 'td';
   $cellTag = 'th' if $flag == 1;
   $cellTag = 'caption' if $flag == 2;
@@ -164,20 +192,26 @@ sub _handleTableCells {
   }
   my @cells;
   foreach my $cell (split(/!{2}|\|{2}/,$text)) {
-    #writeDebug("cell=$cell");
+    #_writeDebug("cell=$cell");
     my $params = '';
-    $cell =~ s/<!--/<<nop>!--/go; # take care of html comments
+    $cell =~ s/<!--/<<nop>!--/g; # take care of html comments
     if ($cell =~ /^(.*?)(?<!<nop>)[!\|](.*)$/) {
       $params = ' '.$1;
       $cell = $2;
     }
-    $cell =~ s/<<nop>!--/<!--/go;
+    $cell =~ s/<<nop>!--/<!--/g;
     push (@cells, "<$cellTag$params>$cell");
   }
 
   my $result =join("</$cellTag>\n", @cells);
-  #writeDebug("result=$result");
+  #_writeDebug("result=$result");
   return $result;
+}
+
+##############################################################################
+sub _writeDebug {
+  #&Foswiki::Func::_writeDebug('- MediaWikiTablePlugin::Core - '.$_[0]) if TRACE;
+  print STDERR '- MediaWikiTablePlugin::Core - '.$_[0]."\n" if TRACE;
 }
 
 1;
