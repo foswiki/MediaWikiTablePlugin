@@ -1,7 +1,6 @@
+!noci
 data/System/MediaWikiTablePlugin.txt 0644
 lib/Foswiki/Plugins/MediaWikiTablePlugin/Core.pm 0644
+lib/Foswiki/Plugins/MediaWikiTablePlugin/DEPENDENCIES 0644
+lib/Foswiki/Plugins/MediaWikiTablePlugin/MANIFEST 0644
 lib/Foswiki/Plugins/MediaWikiTablePlugin.pm 0644
-pub/System/MediaWikiTablePlugin/Makefile 0644
-pub/System/MediaWikiTablePlugin/styles.css 0644
-pub/System/MediaWikiTablePlugin/styles.css.gz 0644
-pub/System/MediaWikiTablePlugin/styles.uncompressed.css 0644

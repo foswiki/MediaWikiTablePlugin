@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="autosave" date="1356278776" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1736790952" format="1.1"  version="1"}%
 ---+!! <nop>%TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -548,7 +548,6 @@ To make the table blend in with the background, use
 <code>style="background:inherit"</code>, does not work with some browsers,
 including IE6!)
 
-
 ---+++ Width and height
 The width and height of the whole table can be specified, as well as the height
 of a row. To specify the width of a column one can specify the width of an
@@ -583,7 +582,6 @@ result depends on the browser.
 Note that <code>style="</code>inline CSS<code>"</code> has no effect with some
 browsers. If it's important equivalent older constructs like
 <code>width="75%"</code> should work on more browsers. 
-
 
 ---+++ Setting your column widths
 If you wish to force column widths to your own requirements, rather than
@@ -685,7 +683,6 @@ example:
 |A shorter piece of text.
 |}
 </div>
-
 
 ---+++ Positioning
 One can position the table itself, and all contents in a row, and contents in a
@@ -808,7 +805,6 @@ incididunt ut labore et dolore magna aliqua. Ut enim ad
 minim veniam, quis nostrud exercitation...
 </div>
 
-
 ---+++ Nested tables
 This shows one table (in blue) nested inside another table's cell2.  ''Nested
 tables have to start on a new line.''
@@ -842,7 +838,6 @@ tables have to start on a new line.''
 | valign="bottom" | the original table again
 |}
 </div>
-
 
 ---+++ Combined use of COLSPAN and ROWSPAN
 
@@ -1158,7 +1153,6 @@ the class style as a base and build up on it:
 |}
 </verbatim></div>
 
-
 *What it looks like in your browser*
 <div class="mwBorder">
 {| class="wikitable" style="font-style:italic; font-size:120%; border:3px dashed red;"
@@ -1193,7 +1187,6 @@ Of course this works only for browsers supporting inline CSS, if it's important
 use XHTML markup like <code>&lt;big&gt;</code> instead of "font-size:120%", or
 Wiki markup like <code>_text_</code> instead of "font-style:italic".
 
-
 <style>
 .mwIndent,
 .mwBorder {
@@ -1201,13 +1194,12 @@ Wiki markup like <code>_text_</code> instead of "font-style:italic".
 }
 .mwIndent pre,
 .mwBorder {
-  border:1px solid #aaa;
+  border:1px solid var(--color-border, #aaa);
 }
 .mwBorder {
   padding:10px;
 }
 </style>
-
 
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -1216,6 +1208,8 @@ Wiki markup like <code>_text_</code> instead of "font-style:italic".
 %$Dependencies%
 
 ---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+|  13 Jan 2025: | improve generated table markup and remove custom css and use standard css classes instead |
 |  28 Oct 2020: | rewrite in OO style |
 |  30 Sep 2011: | using a rendering handler instead of a macro handler to parse mediawiki tables; \
                   deferring css and js initialization until a mediawiki table actually was found on a page |
@@ -1231,11 +1225,11 @@ Wiki markup like <code>_text_</code> instead of "font-style:italic".
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2006-2020, Michael Daum"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
-%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%TOPIC%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%25TOPIC%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2006-2025, Michael Daum"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%TOPIC%"}%
-%META:FIELD{name="Support" title="Support" value="Foswiki:Development/%TOPIC%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25TOPIC%25"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Development/%25TOPIC%25"}%

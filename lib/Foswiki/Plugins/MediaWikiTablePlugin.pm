@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2006-2020 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2006-2025 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,15 +18,19 @@ use strict;
 use warnings;
 
 use Foswiki::Func ();
-our $VERSION = '2.00';
-our $RELEASE = '28 Oct 2020';
+our $VERSION = '2.01';
+our $RELEASE = '%$RELEASE%';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Format tables the <nop>MediaWiki way';
+our $LICENSECODE = '%$LICENSECODE%';
 our $core;
 
 sub initPlugin { 
-  $core->init() if defined $core;
   return 1; 
+}
+
+sub finishPlugin {
+  undef $core;
 }
 
 sub getCore {
